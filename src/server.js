@@ -3,7 +3,7 @@ require("express-async-errors");
 require("dotenv/config");
 
 const AppError = require("./utils/AppError");
-const express = require('express');
+const express = require("express");
 
 const routes = require("./routes");
 const database = require("./database/sqlite");
@@ -23,22 +23,22 @@ app.use(routes);
 database();
 
 app.use((error, request, response, next) => {
-    // Client error
-    if(error instanceof AppError) {
-        return response.status(error.statusCode).json({
-            status: "error",
-            message: error.message
-        });
-    }
+  // Client error
+  if (error instanceof AppError) {
+    return response.status(error.statusCode).json({
+      status: "error",
+      message: error.message,
+    });
+  }
 
-    console.error(error);
+  console.error(error);
 
-    // Server error
-    return response.status(500).json({
-        status: "error",
-        message: "Internal Server Error"
-    })
-})
+  // Server error
+  return response.status(500).json({
+    status: "error",
+    message: "Internal Server Error",
+  });
+});
 
 // Running port
 const PORT = process.env.PORT || 3333;
